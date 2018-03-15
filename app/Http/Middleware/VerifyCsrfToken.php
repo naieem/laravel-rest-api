@@ -15,6 +15,9 @@ class VerifyCsrfToken extends BaseVerifier
         "user/*",
         "check",
         "generateToken",
-        "verifyToken"
+        "verifyToken",
+        "fileUpload",
+        "getData",
+        "updateData"
     ];
 }

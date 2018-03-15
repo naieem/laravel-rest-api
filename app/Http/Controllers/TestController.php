@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\DB;
 class TestController extends Controller
 {
     private $key="Hello_world";
@@ -82,6 +83,68 @@ class TestController extends Controller
         return response()->json($result);
     }
 
+    /*
+     * file upload checking
+     */
+    public function fileUpload(Request $request){
+        if ($request->file('photo')->isValid()) {
+            return response()->json([
+                'fileInfo'=>$request->file('photo')->getFilename()
+            ]);
+        }else{
+            return response()->json([
+                'error'=>'file is not valid'
+            ]);
+        }
+    }
+    /*
+     * Getting all information
+     */
+    public function getData(){
+        $users = DB::select('select * from tasks');
+        return response()->json([
+            'information'=>$users
+        ]);
+    }
+    /*
+     * update query api endpoint
+     * Sample query string
+     * {
+            "datas":{
+                "name":"naieem",
+                "title":"hello world"
+            },
+            "field":{
+                "fieldName":"id",
+                "value":"1"
+            }
+        }
+     */
+    public function updateData(Request $request){
+        $temparray = array();
+        $queryStr="update tasks set ";
+        if(gettype($request->datas) == 'array'){
+            $lnth=count($request->datas);
+            $count=0;
+            foreach ($request->datas as $key => $value) {
+                $count++;
+                $queryStr .=$key."='$value'";
+                if($count != $lnth)
+                    $queryStr .=',';
+            }
+        }
+        $queryStr.=' where '.$request->field['fieldName'].'='.$request->field['value'];
+        $affected = DB::update($queryStr);
+        if($affected)
+            $isupdated=true;
+        else
+            $isupdated=false;
+
+        return response()->json([
+            "query"=>$queryStr,
+            'isUpdate'=>$isupdated
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

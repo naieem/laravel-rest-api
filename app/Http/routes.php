@@ -21,4 +21,7 @@ Route::get('user/{id}', function ($id) {
 Route::group(['middleware' => 'test'], function () {
     Route::post('generateToken', 'TestController@generateToken');
     Route::post('verifyToken', 'TestController@verifyToken');
+    Route::post('fileUpload', 'TestController@fileUpload');
+    Route::get('getData', 'TestController@getData');
+    Route::post('updateData', 'TestController@updateData');
 });
