@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Firebase\JWT\JWT;
+use App\Task;
 use Illuminate\Support\Facades\DB;
 class TestController extends Controller
 {
@@ -101,7 +102,11 @@ class TestController extends Controller
      * Getting all information
      */
     public function getData(){
-        $users = DB::select('select * from tasks');
+//        $users = DB::select('select * from tasks'); // getting all record
+//        $users = DB::table('tasks')->get(); // getting all record
+//        $users = DB::table('tasks')->pluck('title'); // getting only a specific field
+        $users = Task::all(); // getting all data using model
+        $users = Task::find(1);
         return response()->json([
             'information'=>$users
         ]);
