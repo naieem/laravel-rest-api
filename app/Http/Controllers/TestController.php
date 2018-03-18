@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Firebase\JWT\JWT;
 use App\Task;
 use Illuminate\Support\Facades\DB;
+use Faker;
 class TestController extends Controller
 {
     private $key="Hello_world";
@@ -150,6 +151,32 @@ class TestController extends Controller
             'isUpdate'=>$isupdated
         ]);
     }
+
+    /*
+     * Generating dummy data
+     */
+    public function generateData(){
+        $faker = Faker\Factory::create();
+        $info=array();
+        for ($i=0; $i < 10; $i++) {
+            array_push($info,[
+                'name'=>$faker->name(),
+                'title'=>$faker->title,
+                'city'=>$faker->city,
+                'country'=>$faker->country,
+                'email'=>$faker->email,
+                'url'=>$faker->url,
+                'imageUrl'=>$faker->imageUrl(640,480),
+                'itemId'=>$faker->uuid
+            ]);
+        }
+        $insert=DB::table('infos')->insert($info);
+        return response()->json([
+            'information'=>$insert
+        ]);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *

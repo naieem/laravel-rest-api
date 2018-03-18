@@ -14,10 +14,6 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         "user/*",
         "check",
-        "generateToken",
-        "verifyToken",
-        "fileUpload",
-        "getData",
-        "updateData"
+        "api/*"
     ];
 }

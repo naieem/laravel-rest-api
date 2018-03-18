@@ -18,10 +18,11 @@ Route::get('user/{id}', function ($id) {
     return 'User '.$id;
 });
 
-Route::group(['middleware' => 'test'], function () {
+Route::group(['prefix' => 'api','middleware' => 'test'], function () {
     Route::post('generateToken', 'TestController@generateToken');
     Route::post('verifyToken', 'TestController@verifyToken');
     Route::post('fileUpload', 'TestController@fileUpload');
     Route::get('getData', 'TestController@getData');
     Route::post('updateData', 'TestController@updateData');
+    Route::get('generateData', 'TestController@generateData');
 });
