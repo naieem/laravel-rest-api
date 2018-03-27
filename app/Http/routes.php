@@ -25,4 +25,5 @@ Route::group(['prefix' => 'api','middleware' => 'test'], function () {
     Route::get('getData', 'TestController@getData');
     Route::post('updateData', 'TestController@updateData');
     Route::get('generateData', 'TestController@generateData');
+    Route::post('uploadData', 'TestController@uploadFile');
 });

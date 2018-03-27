@@ -8,6 +8,9 @@ use Firebase\JWT\JWT;
 use App\Task;
 use Illuminate\Support\Facades\DB;
 use Faker;
+use App\Http\Requests\UploadRequest;
+use App\Product;
+use App\ProductPhoto;
 class TestController extends Controller
 {
     private $key="Hello_world";
@@ -198,6 +201,26 @@ class TestController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $product = Product::create($request->all());
+        if($file = $request->hasFile('photos')) {
+
+            $file = $request->file('photos');
+            $fileName = $file->getClientOriginalName();
+            ProductPhoto::create([
+                'product_id' => $product->id,
+                'filename' => $fileName
+            ]);
+            $destinationPath = public_path().'/images/' ;
+            $file->move($destinationPath,$fileName);
+        }
+        return response()->json([
+            'UploadedPath'=>public_path(),
+            'result'=>'File information saved succesfully'
+        ]);
     }
 
     /**
